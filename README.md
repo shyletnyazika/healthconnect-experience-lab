@@ -38,3 +38,25 @@ Reproducible data preparation, leakage confirmation, feature engineering (includ
 Final-year Medical Analytics and Informatics student at the University of Zimbabwe, currently a Data Science Intern at AnalystLab Africa.
 
 [Connect with me on LinkedIn](https://www.linkedin.com/in/shylet-nyazika-04585329b/)
+
+
+
+## Week 5 — Data Preparation, Feature Engineering & Baseline Model
+
+### Files
+| File | Description |
+|---|---|
+| `HealthConnect_Week5_DataScience_Notebook.ipynb` | Data preparation, 4 exploratory visualizations, 3 engineered features, patient-grouped train/test split, baseline Logistic Regression model, full evaluation |
+| `HealthConnect_Week5_Baseline_Modelling_Report.docx` | Full write-up of data prep, feature engineering, modelling approach, evaluation, and limitations |
+| `Week5_Project_Summary.docx` | Concise summary of Week 5 work and Week 6 focus |
+
+### Key Development
+- **Resolved a Week 4 open question:** `waiting_time_minutes` was flagged as a possible data-leakage risk. Investigation confirmed it's populated regardless of appointment outcome (including for No-Shows), meaning it's a pre-appointment estimate, not a post-visit measurement — safe to use as a feature.
+- **Patient-grouped train/test split:** confirmed zero patient overlap between training (3,771 rows) and test (966 rows) sets, preventing patient-level data leakage.
+- **Baseline model:** Logistic Regression reached 62.4% accuracy and 0.677 ROC-AUC, meaningfully ahead of the 50% majority-class dummy baseline.
+- **Strongest predictors:** `booking_lead_days` and `previous_no_shows` (both positive coefficients).
+- **New issue flagged for Week 6:** `historical_no_show_rate` and `previous_appointments` show negative coefficients despite the closely related `previous_no_shows` being strongly positive — likely feature overlap/redundancy to resolve before finalizing the feature set.
+
+
+### Next Step (Week 6)
+Resolve the feature-overlap issue identified above, compare the Logistic Regression baseline against tree-based models (Random Forest, Gradient Boosting), and begin basic hyperparameter tuning.
