@@ -60,3 +60,49 @@ Final-year Medical Analytics and Informatics student at the University of Zimbab
 
 ### Next Step (Week 6)
 Resolve the feature-overlap issue identified above, compare the Logistic Regression baseline against tree-based models (Random Forest, Gradient Boosting), and begin basic hyperparameter tuning.
+
+
+
+## Week 6 — Model Improvement, Error Analysis & Validation
+
+**Track:** Data Science
+**Status:** Candidate model ready for ML Engineering integration
+
+### What changed from Week 5
+| | Week 5 | Week 6 |
+|---|---|---|
+| Model | Logistic Regression | Tuned Gradient Boosting |
+| Accuracy | 62.4% | **64.8%** |
+| ROC-AUC | 0.677 | **0.687** |
+| Feature set | `historical_no_show_rate` + `previous_no_shows` (redundant) | `historical_no_show_rate` only, redundancy resolved with evidence (Part 3) |
+| Model selection | No comparison performed | Random Forest + Gradient Boosting compared, then tuned via GridSearchCV |
+
+### Files in this folder
+| File | Description |
+|---|---|
+| `HealthConnect_Week6_DataScience_Notebook.ipynb` | Full notebook: baseline reproduction, error analysis, feature refinement, model comparison, tuning, business relevance, limitations |
+| `Week6_Project_Summary.md` | Standalone project summary (submission requirement, separate from the notebook) |
+| `week6_candidate_model.pkl` | Serialized candidate model artefact (tuned Gradient Boosting) + its feature column list, for ML Engineering to load directly |
+| `requirements.txt` | Python dependencies to reproduce this notebook |
+| `cross_track_integration_log.md` | Evidence of the Week 6 cross-track collaboration with Data Analytics |
+
+### Reproducing this work
+```bash
+pip install -r requirements.txt
+jupyter notebook HealthConnect_Week6_DataScience_Notebook.ipynb
+```
+Run top to bottom with `HealthConnect_Appointment_Data.csv` in the same folder. The Part 1 reproduction cell should print `Accuracy: 0.6242` and `ROC-AUC: 0.6767` before any Week 6 result is trusted — if it doesn't match, something differs in the environment.
+
+### Loading the candidate model elsewhere (for ML Engineering)
+```python
+import joblib
+bundle = joblib.load("week6_candidate_model.pkl")
+model = bundle["model"]
+feature_columns = bundle["feature_columns"]   # column order the model expects after get_dummies
+# align a new dataframe to feature_columns with .reindex(columns=feature_columns, fill_value=0) before predicting
+```
+
+### Known limitations (see notebook Part 9 for full detail)
+- Model calibration and SHAP-based explainability not yet assessed — Week 7.
+- ~36% of predictions fall in a genuine 0.4–0.6 "uncertain" probability zone — a feature-set ceiling, not a tuning problem.
+- Error rate varies by `appointment_type` (31.2%–42.2%) — not yet investigated at the feature level.
