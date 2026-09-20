@@ -106,3 +106,53 @@ feature_columns = bundle["feature_columns"]   # column order the model expects a
 - Model calibration and SHAP-based explainability not yet assessed — Week 7.
 - ~36% of predictions fall in a genuine 0.4–0.6 "uncertain" probability zone — a feature-set ceiling, not a tuning problem.
 - Error rate varies by `appointment_type` (31.2%–42.2%) — not yet investigated at the feature level.
+
+- <!-- Paste this section into your existing README.md, under your Week 6 section -->
+
+## Week 7 — Model Testing, Refinement & End-to-End Validation
+
+**Track:** Data Science
+**Status:** Candidate model tested and confirmed unchanged going into Week 8
+
+### What this week established
+| Test | Result |
+|---|---|
+| Reproduction of Week 6 candidate | Exact match (Acc 0.6480, AUC 0.6872) |
+| Overfitting check | Minimal — Acc gap 0.0014, AUC gap 0.0293 |
+| Calibration | Brier score 0.2246 — reliable in the mid-range, drifts at the extremes |
+| Interaction feature (Victorea, DA) | Tested, **rejected** — slightly decreased performance |
+| Interaction feature (Fatimah, DA) | Tested, **rejected** — zero measurable effect |
+| Is the Week 6 gain over baseline meaningful? | Yes — consistent across every metric, not noise |
+| Specialist Consultation error gap | **Still open** — neither tested fix resolved it |
+
+### Files in this folder
+| File | Description |
+|---|---|
+| `HealthConnect_Week7_DataScience_Notebook.ipynb` | Full notebook: reproduction, overfitting check, calibration, two interaction-feature tests, explainability (permutation importance + SHAP), and cross-track testing evidence |
+| `Week7_Project_Summary.md` | Standalone project summary (submission requirement, separate from the notebook) |
+| `Week7_Testing_Validation_Record.md` | Structured test-by-test record (component, objective, expected/actual result, pass/fail, action taken) |
+| `Week7_HC-POD_Cross-Track_Testing_Log.md` | Full documentation of the Data Analytics testing exchange (Fatimah Oreoluwa Ahmed) |
+| `week7_candidate_model.pkl` | The model artefact — unchanged from Week 6, since both tested refinements were rejected |
+| `requirements.txt` | Python dependencies (adds `shap` for explainability testing) |
+| `evidence/` | Screenshots of the Data Analytics Slack exchange, calibration curve, and SHAP plot |
+
+### Reproducing this work
+```bash
+pip install -r requirements.txt
+jupyter notebook HealthConnect_Week7_DataScience_Notebook.ipynb
+```
+Run top to bottom with `HealthConnect_Appointment_Data.csv` in the same folder. Part 1's reproduction cell should print `Acc=0.6480, AUC=0.6872` before any other Week 7 result is trusted.
+
+### Loading the model (unchanged from Week 6)
+```python
+import joblib
+bundle = joblib.load("week7_candidate_model.pkl")
+model = bundle["model"]
+feature_columns = bundle["feature_columns"]
+# bundle["week7_note"] explains why this is identical to the Week 6 artefact
+```
+
+### Known limitations carried into Week 8 (see notebook for full detail)
+- Calibration is uneven — overconfident at low predicted probabilities, underconfident at high ones.
+- The Specialist Consultation segment's elevated error rate (39–43%) remains unexplained after two tested interaction features.
+- The ~36% "coin-flip" uncertainty zone identified in Week 6 persists — a feature-set ceiling, not a tuning problem.
