@@ -156,3 +156,34 @@ feature_columns = bundle["feature_columns"]
 - Calibration is uneven — overconfident at low predicted probabilities, underconfident at high ones.
 - The Specialist Consultation segment's elevated error rate (39–43%) remains unexplained after two tested interaction features.
 - The ~36% "coin-flip" uncertainty zone identified in Week 6 persists — a feature-set ceiling, not a tuning problem.
+
+- <!-- Paste this section into your existing README.md, under your Week 7 section -->
+
+## Week 8 — Final Integration, Presentation & Showcase
+
+**Track:** Data Science
+**Status:** Project complete — final model documented 
+
+### Final outcome
+| Stage | Accuracy | ROC-AUC |
+|---|---|---|
+| Week 5 Baseline (Logistic Regression) | 62.4% | 0.677 |
+| **Final Candidate (Tuned Gradient Boosting)** | **64.8%** | **0.687** |
+
+Real, consistent improvement across every metric — confirmed in Week 7's meaningfulness check, not assumed.
+
+### Files in this folder
+| File | Description |
+|---|---|
+| `HealthConnect_Week8_DataScience_Notebook.ipynb` | The complete project notebook — all code from Weeks 5–7, plus Week 8's final documentation, non-technical summary, a live readiness smoke-test, and the closed-loop Data Analytics final integration |
+| `Week8_Project_Closure_Summary.md` | Standalone final project summary (submission requirement, separate from the notebook) |
+| `week7_candidate_model.pkl` | The final model artefact — unchanged since Week 7, since both tested refinements were rejected on evidence |
+| `requirements.txt` | Python dependencies |
+
+### What this project demonstrated
+Starting from a 62.4%-accuracy baseline, this track resolved a feature redundancy with direct evidence, compared three model families, tuned the winner, tested it for overfitting and calibration, and rigorously tested two teammate-suggested refinements — rejecting both when the evidence didn't support keeping them. The final model is documented, calibrated, explainable, and handed off with clear technical requirements for production integration.
+
+### Known limitations (final, see notebook for full detail)
+- Calibration is uneven — overconfident at low predicted probabilities, underconfident at high ones.
+- The Specialist Consultation appointment type has a persistently elevated error rate that neither tested refinement resolved.
+- Single-clinic, single-time-period dataset — generalisability beyond it is untested.
